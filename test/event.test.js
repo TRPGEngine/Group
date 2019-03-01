@@ -20,6 +20,10 @@ afterAll(async () => {
 })
 
 describe('group action', () => {
+  beforeAll(async () => {
+    this.testGroup = await db.models.group_group.findOne();
+  })
+
   test('create should be ok', async () => {
     let ret = await emitEvent('group::create', {
       name: 'test group name',
@@ -39,4 +43,14 @@ describe('group action', () => {
       force: true
     })
   });
+
+  test('getInfo should be ok', async () => {
+    let ret = await emitEvent('group::getInfo', {
+      uuid: this.testGroup.uuid
+    });
+
+    expect(ret.result).toBe(true);
+    expect(ret).toHaveProperty('group');
+    expect(ret).toHaveProperty('group.uuid', this.testGroup.uuid);
+  })
 })
