@@ -1,6 +1,7 @@
 const db = global.db;
 const emitEvent = global.emitEvent;
 const _ = global._;
+const generateRandomStr = global.generateRandomStr;
 
 beforeAll(async () => {
   const loginInfo = await emitEvent('player::login', {
@@ -21,7 +22,16 @@ afterAll(async () => {
 
 describe('group action', () => {
   beforeAll(async () => {
-    this.testGroup = await db.models.group_group.findOne();
+    this.testGroup = await db.models.group_group.create({
+      name: 'test name' + generateRandomStr(),
+      sub_name: 'test sub_name' + generateRandomStr(),
+      creator_uuid: this.userInfo.uuid,
+      owner_uuid: this.userInfo.uuid
+    });
+  })
+
+  afterAll(async () => {
+    await this.testGroup.destroy({force: true});
   })
 
   test('create should be ok', async () => {
@@ -52,5 +62,20 @@ describe('group action', () => {
     expect(ret.result).toBe(true);
     expect(ret).toHaveProperty('group');
     expect(ret).toHaveProperty('group.uuid', this.testGroup.uuid);
+  })
+
+  test('updateInfo should be ok', async () => {
+    const desc = generateRandomStr(30);
+    let ret = await emitEvent('group::updateInfo', {
+      groupUUID: this.testGroup.uuid,
+      groupInfo: {
+        desc
+      }
+    });
+
+    expect(ret.result).toBe(true);
+    expect(ret).toHaveProperty('group');
+    expect(ret).toHaveProperty('group.uuid', this.testGroup.uuid);
+    expect(ret).toHaveProperty('group.desc', desc);
   })
 })
