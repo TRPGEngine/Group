@@ -78,4 +78,6 @@ describe('group action', () => {
     expect(ret).toHaveProperty('group.uuid', this.testGroup.uuid);
     expect(ret).toHaveProperty('group.desc', desc);
   })
+
+  test.todo('findGroup should be ok');
 })
