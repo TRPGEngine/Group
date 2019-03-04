@@ -80,4 +80,6 @@ describe('group action', () => {
   })
 
   test.todo('findGroup should be ok');
+
+  test.todo('requestJoinGroup should be ok');
 })
