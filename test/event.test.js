@@ -99,4 +99,11 @@ describe('group action', () => {
     expect(ret).toHaveProperty('res');
     expect(Array.isArray(ret.res)).toBe(true);
   });
+
+  test('getGroupList should be ok', async () => {
+    let ret = await emitEvent('group::getGroupList');
+    expect(ret.result).toBe(true);
+    expect(ret).toHaveProperty('groups');
+    expect(Array.isArray(ret.groups)).toBe(true);
+  });
 })
