@@ -88,4 +88,6 @@ describe('group action', () => {
   test.todo('refuseGroupRequest should be ok');
 
   test.todo('sendGroupInvite should be ok');
+
+  test.todo('refuseGroupInvite should be ok');
 })
