@@ -120,4 +120,18 @@ describe('group action', () => {
       expect(ret).toHaveProperty('members.0.selected_actor_uuid');
     }
   });
+
+  test('getGroupActors should be ok', async () => {
+    let group = await db.models.group_group.findOne();
+    let ret = await emitEvent('group::getGroupActors', {
+      groupUUID: group.uuid
+    })
+
+    expect(ret.result).toBe(true);
+    expect(ret).toHaveProperty('actors');
+    expect(Array.isArray(ret.actors)).toBe(true);
+    if(ret.actors.length > 0) {
+      expect(ret).toHaveProperty('actors.0.actor');
+    }
+  })
 })
