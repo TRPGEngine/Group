@@ -106,4 +106,18 @@ describe('group action', () => {
     expect(ret).toHaveProperty('groups');
     expect(Array.isArray(ret.groups)).toBe(true);
   });
+
+  test('getGroupMembers should be ok', async () => {
+    let group = await db.models.group_group.findOne();
+    let ret = await emitEvent('group::getGroupMembers', {
+      groupUUID: group.uuid
+    })
+
+    expect(ret.result).toBe(true);
+    expect(ret).toHaveProperty('members');
+    expect(Array.isArray(ret.members)).toBe(true);
+    if(ret.members.length > 0) {
+      expect(ret).toHaveProperty('members.0.selected_actor_uuid');
+    }
+  });
 })
