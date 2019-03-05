@@ -92,4 +92,11 @@ describe('group action', () => {
   test.todo('refuseGroupInvite should be ok');
 
   test.todo('agreeGroupInvite should be ok');
+
+  test('getGroupInvite should be ok', async () => {
+    let ret = await emitEvent('group::getGroupInvite');
+    expect(ret.result).toBe(true);
+    expect(ret).toHaveProperty('res');
+    expect(Array.isArray(ret.res)).toBe(true);
+  });
 })
