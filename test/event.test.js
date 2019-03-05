@@ -90,4 +90,6 @@ describe('group action', () => {
   test.todo('sendGroupInvite should be ok');
 
   test.todo('refuseGroupInvite should be ok');
+
+  test.todo('agreeGroupInvite should be ok');
 })
