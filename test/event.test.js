@@ -86,4 +86,6 @@ describe('group action', () => {
   test.todo('agreeGroupRequest should be ok');
 
   test.todo('refuseGroupRequest should be ok');
+
+  test.todo('sendGroupInvite should be ok');
 })
