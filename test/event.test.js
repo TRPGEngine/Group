@@ -159,4 +159,6 @@ describe('group action', () => {
   test.todo('agreeGroupActor should be ok');
 
   test.todo('refuseGroupActor should be ok');
+
+  test.todo('updateGroupActorInfo should be ok');
 })
