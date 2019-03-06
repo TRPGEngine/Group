@@ -134,4 +134,23 @@ describe('group action', () => {
       expect(ret).toHaveProperty('actors.0.actor');
     }
   })
+
+  test('addGroupActor should be ok', async () => {
+    let testActor = await db.models.actor_actor.findOne();
+    let ret = await emitEvent('group::addGroupActor', {
+      groupUUID: this.testGroup.uuid,
+      actorUUID: testActor.uuid,
+    });
+
+    expect(ret.result).toBe(true);
+    expect(ret).toHaveProperty('groupActor');
+    expect(ret).toHaveProperty('groupActor.actorId');
+    expect(ret).toHaveProperty('groupActor.groupId');
+
+    await db.models.group_actor.destroy({
+      where: {
+        uuid: ret.groupActor.uuid
+      }
+    })
+  });
 })
