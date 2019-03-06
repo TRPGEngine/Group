@@ -153,4 +153,6 @@ describe('group action', () => {
       }
     })
   });
+
+  test.todo('removeGroupActor should be ok');
 })
