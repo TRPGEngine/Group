@@ -31,7 +31,11 @@ describe('group action', () => {
       creator_uuid: this.userInfo.uuid,
       owner_uuid: this.userInfo.uuid
     });
-    await this.testGroup.addMembers(this.userInfoInstance);
+    await this.testGroup.addMember(this.userInfoInstance, {
+      through: {
+        selected_group_actor_uuid: 'test selected_group_actor_uuid'
+      }
+    });
   })
 
   afterAll(async () => {
@@ -173,8 +177,8 @@ describe('group action', () => {
         actor_uuid: actor.uuid,
         ownerId: this.userInfo.id,
         actorId: actor.id,
-        groupId: this.testGroup.id
-      })
+        groupId: this.testGroup.id,
+      });
     })
 
     afterAll(async () => {
@@ -189,8 +193,19 @@ describe('group action', () => {
 
       expect(ret.result).toBe(true);
       expect(ret).toHaveProperty('data');
-      expect(ret).toHaveProperty('data.groupUUID');
-      expect(ret).toHaveProperty('data.groupActorUUID');
+      expect(ret).toHaveProperty('data.groupUUID', this.testGroup.uuid);
+      expect(ret).toHaveProperty('data.groupActorUUID', this.testGroupActor.uuid);
     });
+
+    test('getPlayerSelectedGroupActor should be ok', async () => {
+      let ret = await emitEvent('group::getPlayerSelectedGroupActor', {
+        groupUUID: this.testGroup.uuid,
+        groupMemberUUID: this.userInfo.uuid,
+      })
+
+      expect(ret.result).toBe(true);
+      expect(ret).toHaveProperty('playerSelectedGroupActor');
+      expect(ret).toHaveProperty('playerSelectedGroupActor.groupMemberUUID', this.userInfo.uuid);
+    })
   })
 })
