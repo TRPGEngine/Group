@@ -10,6 +10,9 @@ beforeAll(async () => {
   })
   expect(loginInfo.result).toBe(true);
   this.userInfo = loginInfo.info;
+  this.userInfoInstance = await db.models.player_user.findOne({
+    where: {uuid: this.userInfo.uuid}
+  })
 })
 
 afterAll(async () => {
@@ -28,6 +31,7 @@ describe('group action', () => {
       creator_uuid: this.userInfo.uuid,
       owner_uuid: this.userInfo.uuid
     });
+    await this.testGroup.addMembers(this.userInfoInstance);
   })
 
   afterAll(async () => {
@@ -161,4 +165,32 @@ describe('group action', () => {
   test.todo('refuseGroupActor should be ok');
 
   test.todo('updateGroupActorInfo should be ok');
+
+  describe('group actor action', () => {
+    beforeAll(async () => {
+      let actor = await db.models.actor_actor.findOne();
+      this.testGroupActor = await db.models.group_actor.create({
+        actor_uuid: actor.uuid,
+        ownerId: this.userInfo.id,
+        actorId: actor.id,
+        groupId: this.testGroup.id
+      })
+    })
+
+    afterAll(async () => {
+      await this.testGroupActor.destroy();
+    })
+
+    test('setPlayerSelectedGroupActor should be ok', async () => {
+      let ret = await emitEvent('group::setPlayerSelectedGroupActor', {
+        groupUUID: this.testGroup.uuid,
+        groupActorUUID: this.testGroupActor.uuid,
+      })
+
+      expect(ret.result).toBe(true);
+      expect(ret).toHaveProperty('data');
+      expect(ret).toHaveProperty('data.groupUUID');
+      expect(ret).toHaveProperty('data.groupActorUUID');
+    });
+  })
 })
