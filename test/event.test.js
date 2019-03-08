@@ -214,4 +214,6 @@ describe('group action', () => {
   test.todo('dismissGroup should be ok');
 
   test.todo('tickMember should be ok');
+
+  test.todo('setMemberToManager should be ok');
 })
