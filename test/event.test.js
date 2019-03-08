@@ -210,4 +210,6 @@ describe('group action', () => {
   })
 
   test.todo('quitGroup should be ok');
+
+  test.todo('dismissGroup should be ok');
 })
