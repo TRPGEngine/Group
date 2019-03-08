@@ -208,4 +208,6 @@ describe('group action', () => {
       expect(ret).toHaveProperty('playerSelectedGroupActor.groupMemberUUID', this.userInfo.uuid);
     })
   })
+
+  test.todo('quitGroup should be ok');
 })
