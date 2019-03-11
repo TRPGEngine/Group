@@ -225,4 +225,13 @@ describe('group action', () => {
     expect(ret.result).toBe(true);
     expect(ret.status).toBe(false);
   })
+
+  test('setGroupStatus should be ok', async () => {
+    let ret = await emitEvent('group::setGroupStatus', {
+      groupUUID: this.testGroup.uuid,
+      groupStatus: true
+    });
+
+    expect(ret.result).toBe(true);
+  })
 })
