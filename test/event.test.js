@@ -216,4 +216,13 @@ describe('group action', () => {
   test.todo('tickMember should be ok');
 
   test.todo('setMemberToManager should be ok');
+
+  test('getGroupStatus should be ok', async () => {
+    let ret = await emitEvent('group::getGroupStatus', {
+      groupUUID: this.testGroup.uuid
+    })
+
+    expect(ret.result).toBe(true);
+    expect(ret.status).toBe(false);
+  })
 })
